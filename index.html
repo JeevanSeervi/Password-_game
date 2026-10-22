@@ -3,54 +3,591 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Password Please — BCA Password Challenge</title>
+<title>Password Please</title>
 <style>
-:root{color-scheme:light;--purple:#5b43d6;--ink:#211f32;--muted:#77748d;--bg:#f5f4fb;--border:#e7e5f0}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 8% 0%,#5b43d61c,transparent 28rem),var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.shell{max-width:900px;margin:auto;padding:24px 16px 48px}.topbar{display:flex;align-items:center;gap:12px;margin-bottom:24px}.logo{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--purple);color:#fff;font-size:24px;font-weight:900}.brand-name{font-weight:850;font-size:20px;letter-spacing:-.04em}.brand-sub{font-size:12px;color:var(--muted);margin-top:3px}.card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:clamp(20px,4vw,36px);box-shadow:0 20px 60px #29204e10}.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;color:#7567d8}h1{font-size:clamp(32px,5vw,48px);line-height:1;letter-spacing:-.06em;margin:14px 0}p{line-height:1.6;color:var(--muted)}label{display:block;margin-top:18px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}input{display:block;width:100%;margin-top:8px;padding:15px 14px;border:1.5px solid #dcd9ea;border-radius:13px;font:inherit;font-size:16px;color:var(--ink);background:#fcfbff;outline:none}input:focus{border-color:var(--purple);box-shadow:0 0 0 4px #5b43d622}.note{background:#e9faf0;border-radius:12px;padding:12px 14px;color:#216344;font-size:12px;line-height:1.6;margin-top:14px}.error{color:#b4233d;font-size:13px;min-height:18px}.btn{border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weight:800;cursor:pointer}.primary{background:var(--purple);color:#fff}.soft{background:#f0edff;color:#5944ca}.full{width:100%;margin-top:10px}.hidden{display:none!important}.panel{margin-top:18px;padding:clamp(18px,3vw,28px);border:1px solid var(--border);border-radius:18px;background:#fbfaff}.feedback{padding:14px;border-radius:13px;margin-top:14px;background:#fff0f0;border:1px solid #ffdada;color:#6b4550;font-size:14px;line-height:1.6}.feedback.ok{background:#e9faf0;border-color:#c7efd7;color:#32654a}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.actions .btn{flex:1}.success{margin-top:18px;padding:22px;border-radius:18px;text-align:center;background:linear-gradient(135deg,#e4f9eb,#f1edff);color:#231b47}.success h2{font-size:clamp(25px,4vw,34px);margin:8px 0}.meme{max-width:430px;margin:18px auto 0;border:2px solid #2b2549;border-radius:16px;overflow:hidden;background:#fff9e9}.meme-top{background:#201c35;color:#fff;padding:12px;font-weight:950}.meme svg{display:block;width:100%;height:auto}.meme-bottom{padding:12px;font-weight:850}.footer{font-size:11px;text-align:center;color:#9691aa;margin-top:22px}@media(max-width:480px){.shell{padding:16px 12px 32px}.topbar{margin-bottom:18px}.actions{flex-direction:column}}
+:root {
+  --site-primary: #5B43D6;
+  --site-secondary: #17162A;
+  --site-background: #F5F4FB;
+  --site-on-primary: #FFFFFF;
+  --site-on-secondary: #FFFFFF;
+  --site-on-background: #211F32;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); color: var(--site-on-background); background: var(--site-background); }
+#app {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--site-background);
+  background-image: radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--site-primary) 11%, transparent), transparent 28rem);
+  color: var(--site-on-background);
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+.shell { max-width: 1180px; margin: 0 auto; padding: calc(28px * var(--site-spacing-scale)) calc(20px * var(--site-spacing-scale)) 56px; }
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:28px; }
+.brand { display:flex; align-items:center; gap:12px; }
+.logo { display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:var(--site-primary); color:var(--site-on-primary); font-size:23px; font-weight:900; box-shadow:0 8px 24px color-mix(in srgb, var(--site-primary) 25%, transparent); }
+.brand-name { font:800 calc(20px * var(--site-heading-scale))/1.1 var(--site-font-heading); letter-spacing:-.04em; }
+.brand-sub { font-size:12px; color:#77748D; margin-top:4px; }
+.top-pill { border:1px solid #E0DDF1; border-radius:999px; padding:8px 12px; font-size:12px; color:#6D6985; background:color-mix(in srgb, white 78%, transparent); }
+.hero { display:grid; grid-template-columns:minmax(0, 1.1fr) minmax(280px, .9fr); gap:22px; align-items:stretch; margin-bottom:22px; }
+.hero { display:none !important; }
+.question-top, .counter, .progress-track, .layout > aside.panel { display:none !important; }
+.question-top { display:none !important; }
+.feedback p { white-space:pre-line; }
+.hero-copy { background:var(--site-secondary); color:var(--site-on-secondary); border-radius:calc(26px * var(--site-radius-scale)); padding:clamp(24px, 4vw, 42px); position:relative; overflow:hidden; }
+.hero-copy:after { content:""; position:absolute; width:260px; height:260px; border:1px solid #ffffff20; border-radius:50%; right:-110px; top:-120px; box-shadow:0 0 0 35px #ffffff08, 0 0 0 70px #ffffff05; opacity:var(--site-decoration-opacity); pointer-events:none; }
+.eyebrow { text-transform:uppercase; letter-spacing:.16em; font-size:11px; font-weight:800; color:#B8B0FF; }
+h1 { font:850 clamp(36px, 5vw, 58px)/.99 var(--site-font-heading); letter-spacing:-.065em; margin:16px 0; max-width:600px; }
+.hero-copy p { color:#D2D0E3; line-height:1.65; max-width:510px; margin:0; }
+.hero-copy strong { color:white; }
+.hero-side { background:#E8E4FF; border-radius:calc(26px * var(--site-radius-scale)); padding:24px; display:flex; flex-direction:column; justify-content:space-between; color:#29204E; min-height:240px; }
+.side-label { text-transform:uppercase; font-size:11px; letter-spacing:.12em; font-weight:800; color:#7366B5; }
+.side-quote { font-size:25px; line-height:1.12; letter-spacing:-.04em; font-weight:850; margin:16px 0; }
+.side-note { font-size:13px; line-height:1.5; color:#635B88; }
+.side-stats { display:flex; gap:8px; margin-top:20px; }
+.stat { flex:1; border:1px solid #D2CCF7; background:#F6F4FF; border-radius:14px; padding:12px; }
+.stat b { display:block; font-size:22px; letter-spacing:-.04em; }
+.stat span { font-size:11px; color:#6D6590; }
+.layout { display:grid; grid-template-columns:minmax(0, 1.35fr) minmax(290px, .75fr); gap:22px; align-items:start; }
+.panel { background:light-dark(#FFFFFF,#191827); border:1px solid light-dark(#E7E5F0,#343246); border-radius:calc(22px * var(--site-radius-scale)); padding:clamp(18px, 2.5vw, 28px); box-shadow:0 10px 35px #29204e0a; }
+.panel-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:18px; }
+.panel h2 { font:800 calc(22px * var(--site-heading-scale))/1.15 var(--site-font-heading); letter-spacing:-.04em; margin:0; }
+.subtle { color:light-dark(#77748D,#B0AEC2); font-size:13px; line-height:1.5; }
+.counter { display:none; white-space:nowrap; background:#F0EDFF; color:#5944CA; border-radius:999px; padding:7px 10px; font-size:12px; font-weight:800; }
+.progress-track { display:none; height:7px; border-radius:999px; background:light-dark(#ECEAF5,#343246); overflow:hidden; margin:16px 0 22px; }
+.progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#5B43D6,#A49AFF); border-radius:999px; transition:width .35s ease; }
+.input-label { display:block; font-size:12px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; margin-bottom:9px; color:light-dark(#77748D,#B0AEC2); }
+.password-wrap { position:relative; }
+.password-input { width:100%; border:1.5px solid light-dark(#DCD9EA,#49465F); border-radius:15px; padding:16px 48px 16px 16px; background:light-dark(#FCFBFF,#11101B); color:light-dark(#211F32,#F7F5FF); outline:none; font-size:16px; transition:border .2s, box-shadow .2s; }
+.password-input:focus { border-color:var(--site-primary); box-shadow:0 0 0 4px color-mix(in srgb, var(--site-primary) 15%, transparent); }
+.toggle { position:absolute; right:10px; top:50%; transform:translateY(-50%); border:0; background:transparent; color:#77748D; padding:7px; border-radius:8px; }
+.actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:13px; }
+.btn { border:0; border-radius:12px; padding:12px 16px; font-weight:800; transition:transform .15s, opacity .15s; }
+.btn:active { transform:scale(.98); }
+.btn-primary { background:var(--site-primary); color:var(--site-on-primary); }
+.btn-soft { background:light-dark(#F0EDFF,#2B2840); color:light-dark(#5944CA,#C7C0FF); }
+.btn:focus-visible, .toggle:focus-visible { outline:3px solid #A99FFF; outline-offset:3px; }
+.question-card { margin-top:22px; border:1px solid light-dark(#E5E2F1,#3B384F); background:light-dark(#FBFAFF,#211F32); border-radius:18px; padding:20px; }
+.question-top { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:15px; }
+.question-number { font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:.13em; color:#827AAB; }
+.status { font-size:11px; font-weight:900; border-radius:999px; padding:6px 9px; background:#FFF1D8; color:#8B5700; }
+.status.pass { background:#DDF8E9; color:#126A42; }
+.question-title { font-size:21px; font-weight:850; letter-spacing:-.035em; line-height:1.25; margin-bottom:10px; }
+.hint { font-size:13px; color:light-dark(#69657E,#B8B5CA); line-height:1.6; }
+.feedback { display:flex; gap:10px; align-items:flex-start; margin-top:16px; padding:13px 14px; border-radius:13px; background:light-dark(#FFF0F0,#321F29); border:1px solid light-dark(#FFDADA,#56313B); }
+.feedback.ok { background:light-dark(#E9FAF0,#152D25); border-color:light-dark(#C7EFD7,#28563F); }
+.feedback-icon { font-size:18px; line-height:1; }
+.feedback strong { display:block; font-size:13px; margin-bottom:4px; }
+.feedback p { margin:0; font-size:13px; line-height:1.55; color:light-dark(#6B4550,#E0BFC8); }
+.feedback.ok p { color:light-dark(#32654A,#B5E8C8); }
+.feedback strong { color:light-dark(#302A3C,#F8F5FF); }
+.feedback.ok strong { color:light-dark(#1B6540,#D8FBE5); }
+.question-actions { display:flex; gap:10px; margin-top:15px; flex-wrap:wrap; }
+.small-note { margin-top:15px; color:light-dark(#89859C,#9F9BB3); font-size:11px; line-height:1.5; }
+.rule-list { margin-top:18px; }
+.rule-list-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.rule-list-head h3 { margin:0; font-size:14px; }
+.rule-list-head span { font-size:11px; color:#89859C; }
+.rule-row { display:flex; align-items:flex-start; gap:10px; padding:11px 0; border-bottom:1px solid light-dark(#EFEDF5,#302E42); }
+.rule-row:last-child { border-bottom:0; }
+.rule-dot { width:25px; height:25px; border-radius:8px; display:grid; place-items:center; background:light-dark(#F0EEF8,#302E42); color:light-dark(#77718F,#B5B0CD); font-size:11px; font-weight:900; flex-shrink:0; }
+.rule-dot.pass { background:#DDF8E9; color:#126A42; }
+.rule-dot.current { background:#F0EDFF; color:#5944CA; box-shadow:inset 0 0 0 1px #D1CAFF; }
+.rule-name { font-size:12px; font-weight:750; line-height:1.35; }
+.rule-state { font-size:11px; color:light-dark(#89859C,#A7A3B9); margin-top:3px; }
+.mini-badge { margin-left:auto; font-size:10px; font-weight:800; color:#77718F; }
+.success { display:none; margin-top:20px; padding:22px; border-radius:18px; background:linear-gradient(135deg,#E4F9EB,#F1EDFF); color:#231B47; text-align:center; }
+.success.show { display:block; animation:pop .45s ease both; }
+@keyframes pop { 0%{opacity:0;transform:translateY(10px) scale(.98)} 100%{opacity:1;transform:translateY(0) scale(1)} }
+.success h3 { font-size:27px; letter-spacing:-.05em; margin:8px 0; }
+.meme-card { margin:18px auto 0; max-width:430px; border-radius:16px; overflow:hidden; border:2px solid #2B2549; background:#FFF9E9; }
+.meme-caption { background:#201C35; color:white; font-size:17px; font-weight:950; padding:12px; letter-spacing:.02em; }
+.meme-bottom { color:#231B47; font-weight:900; font-size:15px; padding:11px; }
+.meme-svg { display:block; width:100%; height:auto; background:#E9E5F4; }
+.footer-note { margin-top:22px; text-align:center; color:#9691AA; font-size:11px; }
+.signup-panel { max-width:560px; margin:34px auto 70px; background:light-dark(#FFFFFF,#191827); border:1px solid light-dark(#E7E5F0,#343246); border-radius:24px; padding:clamp(22px,4vw,38px); box-shadow:0 20px 60px #29204e12; }
+.signup-panel h1 { color:light-dark(#211F32,#F7F5FF); font-size:clamp(32px,5vw,46px); margin:12px 0; }
+.signup-panel p { color:light-dark(#77748D,#B0AEC2); line-height:1.6; }
+.field { display:block; margin-top:18px; }
+.field span { display:block; font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; color:light-dark(#77748D,#B0AEC2); }
+.field input { width:100%; padding:15px 14px; border:1.5px solid light-dark(#DCD9EA,#49465F); border-radius:13px; background:light-dark(#FCFBFF,#11101B); color:light-dark(#211F32,#F7F5FF); outline:none; }
+.field input:focus { border-color:var(--site-primary); box-shadow:0 0 0 4px color-mix(in srgb, var(--site-primary) 15%, transparent); }
+.signup-error { color:#B4233D !important; font-size:13px; min-height:18px; margin:10px 0 0; }
+.hidden-step { display:none !important; }
+.celebration-canvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:999; }
+.success { width:100%; }
+.layout > aside.panel { display:none; }
+#showRulesBtn { display:none; }
+.layout.completed > .panel > :not(.success) { display:none !important; }
+.layout.completed > .panel { background:transparent; border:0; box-shadow:none; padding:0; }
+.layout.completed { display:block; max-width:760px; margin:0 auto; }
+.success.show { padding:clamp(24px,5vw,48px); box-shadow:0 24px 80px #29204e20; }
+@media (max-width:850px) { .hero,.layout { grid-template-columns:1fr; } .hero-side { min-height:190px; } }
+@media (max-width:480px) { .shell { padding:18px 12px 36px; } .topbar { align-items:flex-start; } .top-pill { font-size:10px; } .panel-head { flex-direction:column; } .question-title { font-size:19px; } .actions .btn { flex:1; } }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
 </style>
 </head>
-<body><main class="shell"><header class="topbar"><div class="logo">?</div><div><div class="brand-name">Password Please</div><div class="brand-sub">A tiny test of your patience.</div></div></header>
-<section class="card" id="signup"><div class="eyebrow">Password challenge</div><h1>Make a password.<br>Defend your degree.</h1><p>Enter a password to start the challenge.</p><form id="form"><label>Your name<input id="name" name="name" autocomplete="name" placeholder="Enter your name" required></label><label>Mobile number<input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel" placeholder="Enter your mobile number" required></label><label>Your password<input id="initialPassword" name="password" type="password" autocomplete="off" placeholder="Create your password" required></label><div class="note">🔒 Demo only: this page does not send your password to a server. Do not use a real password you use elsewhere.</div><p class="error" id="error" aria-live="polite"></p><button class="btn primary full" type="submit">Submit password &amp; start game</button></form></section>
-<section class="card hidden" id="game"><div class="eyebrow" id="counter">Rule 1 of 30</div><h1 id="title" style="font-size:clamp(26px,4vw,36px)">Your password must start with an underscore `_`.</h1><p id="hint">Add an underscore at the beginning.</p><label for="password">Your password</label><input id="password" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="actions"><button class="btn primary" id="check" type="button">Check password</button><button class="btn soft" id="reset" type="button">Start over</button></div><div id="feedback" class="feedback" aria-live="polite"></div><div class="note">Demo only: typed passwords are not sent to a server. Do not reuse an actual account password.</div><div class="success hidden" id="success"><div class="eyebrow">Submission complete</div><h2>Password submitted successfully.</h2><p>All 30 rules passed. Hope we find a harder challenge next time.</p><div class="meme"><div class="meme-top">TIME PASS HOGAYA? AAB CHALO DSA KARO!</div><svg viewBox="0 0 520 300" role="img" aria-label="Original funny cartoon reaction"><rect width="520" height="300" fill="#f7d9a8"/><rect y="218" width="520" height="82" fill="#e9b96e"/><path d="M20 40 H230 Q245 40 245 55 V112 Q245 127 230 127 H135 L105 151 L110 127 H35 Q20 127 20 112Z" fill="#fff" stroke="#30243a" stroke-width="4"/><text x="132" y="73" font-size="18" font-weight="950" text-anchor="middle" fill="#30243a">KYA GUNDA</text><text x="132" y="99" font-size="18" font-weight="950" text-anchor="middle" fill="#30243a">BANEGA RE TU?</text><ellipse cx="350" cy="119" rx="72" ry="78" fill="#d99561" stroke="#30243a" stroke-width="4"/><path d="M279 104 Q265 35 340 35 Q416 26 423 100 L404 82 L390 57 L356 68 L320 59 L295 92Z" fill="#30243a"/><path d="M299 111 Q321 91 341 111 M362 111 Q383 91 402 111" stroke="#30243a" stroke-width="7" fill="none" stroke-linecap="round"/><ellipse cx="321" cy="125" rx="9" ry="13" fill="#fff" stroke="#30243a" stroke-width="3"/><ellipse cx="383" cy="125" rx="9" ry="13" fill="#fff" stroke="#30243a" stroke-width="3"/><circle cx="323" cy="127" r="4" fill="#30243a"/><circle cx="381" cy="127" r="4" fill="#30243a"/><path d="M303 157 Q324 145 344 157 Q350 163 356 157 Q377 145 397 157 Q382 184 350 176 Q318 184 303 157Z" fill="#30243a"/><path d="M278 231 Q284 186 319 183 L382 183 Q417 186 424 231Z" fill="#5b43d6" stroke="#30243a" stroke-width="4"/><path d="M324 184 L350 215 L377 184" fill="#fff"/><rect x="18" y="245" width="484" height="38" rx="10" fill="#30243a"/><text x="260" y="270" font-size="18" font-weight="950" text-anchor="middle" fill="#fff">BHAI, DSA KAR LE PEHLE 😂</text></svg><div class="meme-bottom">“Password challenge khatam? Ab Linked List, Stack aur Trees tumhara intezaar kar rahe hain 😂”</div></div><button class="btn primary full" id="again" type="button">Start again</button></div></section><div class="footer">Made for fun • HTML, CSS &amp; JavaScript • Never enter a real password</div></main>
+<body>
+<div id="app" data-sites-preview-theme="custom">
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">?</div>
+        <div>
+          <div class="brand-name">Password Please</div>
+          <div class="brand-sub">A tiny test of your patience.</div>
+        </div>
+      </div>
+      <div class="top-pill" style="display:none"><span id="todayLabel">LIVE</span></div>
+    </header>
+
+    <section class="signup-panel" id="signupStep">
+      <div class="eyebrow" style="color:#7567D8">PASSWORD CHALLENGE</div>
+      <h1>Make a password.<br>Defend your degree.</h1>
+      <p>Enter a password to start the challenge.</p>
+      <form id="accountForm">
+        <label class="field"><span>Your name</span><input id="accountName" name="name" type="text" autocomplete="name" placeholder="Enter your name" required></label>
+        <label class="field"><span>Mobile number</span><input id="accountMobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel" placeholder="Enter your mobile number" required></label>
+        <label class="field"><span>Your password</span><input id="accountPassword" name="password" type="password" autocomplete="off" placeholder="Create your password" required></label>
+        <div class="small-note" role="note" style="margin-top:8px;padding:12px 14px;border-radius:12px;background:#E9FAF0;color:#216344">🔒 Demo only: your password stays in this page and is not sent to a server. Don't use a real password.</div>
+        <p class="signup-error" id="accountError" aria-live="polite"></p>
+        <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">Submit password &amp; start game</button>
+      </form>
+      
+    </section>
+
+    <section class="hero hidden-step" id="heroSection">
+      <div class="hero-copy">
+        <div class="eyebrow">Authentication • but make it personal</div>
+        <h1>Make a password.<br>Defend your degree.</h1>
+        <p>One password. Thirty requirements. A validator with the energy of a strict BCA viva examiner. <strong>Every old rule stays active.</strong></p>
+      </div>
+      <aside class="hero-side">
+        <div>
+          <div class="side-label">The examiner says</div>
+          <div class="side-quote">“Code likhna aata hai. Password banana bhi aata hai?”</div>
+          <div class="side-note">Fix the current issue to move forward. Break an earlier rule and the examiner will notice.</div>
+        </div>
+        <div class="side-stats">
+          <div class="stat"><b>30</b><span>requirements</span></div>
+          <div class="stat"><b>0</b><span>sympathy marks</span></div>
+          <div class="stat"><b>∞</b><span>attempts</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="layout hidden-step" id="passwordSection">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Create password</h2>
+          <div class="subtle" style="margin-top:7px">Enter your password, then submit it.</div>
+          </div>
+        <div class="counter" id="progressCount">0 / 30 passed</div>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+        <label class="input-label" for="passwordInput">Your password</label>
+        <div class="password-wrap">
+          <input id="passwordInput" class="password-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" value="" placeholder="Create a very patient password..." aria-describedby="privacyNote">
+          <button id="toggleVisibility" class="toggle" type="button" aria-label="Hide password">◉</button>
+        </div>
+        <div class="actions">
+          <button id="startBtn" class="btn btn-primary" type="button">Submit password</button>
+          <button id="resetBtn" class="btn btn-soft" type="button">Start over</button>
+        </div>
+        <div class="question-card hidden-step" id="questionCard" aria-live="polite">
+      <div class="question-top hidden-step">
+            <div class="question-number" id="questionNumber">RULE 1 OF 30</div>
+            <div class="status" id="questionStatus">NOT PASSED</div>
+          </div>
+          <div class="question-title" id="questionTitle">Your password must start with an underscore `_`.</div>
+          <div class="hint" id="questionHint">Fix: Put `_` before the first character. Example: `_hello`.</div>
+          <div class="feedback" id="feedback">
+            <div class="feedback-icon" id="feedbackIcon">⚠️</div>
+            <div><strong id="feedbackTitle">VALIDATION FAILED</strong><p id="feedbackText">Bhai, shuruaat mein hi galti? Pehle `_` lagao, phir aage badho.</p></div>
+          </div>
+          <div class="question-actions">
+            <button id="nextBtn" class="btn btn-primary" type="button" disabled>Fix this rule to continue</button>
+            <button id="showRulesBtn" class="btn btn-soft" type="button">View all rules</button>
+          </div>
+          <div class="small-note" id="privacyNote">Demo only: your typed password stays in this page and is not sent to a server. Do not enter a real password you use elsewhere.</div>
+        </div>
+
+        <div class="success" id="successPanel">
+          <div style="font-size:12px;font-weight:900;letter-spacing:.15em;text-transform:uppercase">SUBMISSION COMPLETE</div>
+          <h3>Password submitted successfully.</h3>
+          <p>All 30 rules passed. Hope we find a harder challenge next time.</p>
+          <div class="meme-card">
+            <div class="meme-caption">TIME PASS HOGAYA? AAB CHALO DSA KARO!</div>
+            <svg class="meme-svg" viewBox="0 0 520 300" role="img" aria-label="Original cartoon reaction meme with a surprised Indian comedy character">
+              <rect width="520" height="300" fill="#F7D9A8"/>
+              <rect x="0" y="218" width="520" height="82" fill="#E9B96E"/>
+              <path d="M20 40 H230 Q245 40 245 55 V112 Q245 127 230 127 H135 L105 151 L110 127 H35 Q20 127 20 112Z" fill="#FFFFFF" stroke="#30243A" stroke-width="4"/>
+              <text x="132" y="73" font-size="18" font-weight="950" text-anchor="middle" fill="#30243A">KYA GUNDA</text>
+              <text x="132" y="99" font-size="18" font-weight="950" text-anchor="middle" fill="#30243A">BANEGA RE TU?</text>
+              <ellipse cx="350" cy="119" rx="72" ry="78" fill="#D99561" stroke="#30243A" stroke-width="4"/>
+              <path d="M279 104 Q265 35 340 35 Q416 26 423 100 L404 82 L390 57 L356 68 L320 59 L295 92Z" fill="#30243A"/>
+              <path d="M299 111 Q321 91 341 111" stroke="#30243A" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <path d="M362 111 Q383 91 402 111" stroke="#30243A" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <ellipse cx="321" cy="125" rx="9" ry="13" fill="#FFFFFF" stroke="#30243A" stroke-width="3"/>
+              <ellipse cx="383" cy="125" rx="9" ry="13" fill="#FFFFFF" stroke="#30243A" stroke-width="3"/>
+              <circle cx="323" cy="127" r="4" fill="#30243A"/>
+              <circle cx="381" cy="127" r="4" fill="#30243A"/>
+              <path d="M339 151 Q350 160 362 151" stroke="#30243A" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M303 157 Q324 145 344 157 Q350 163 356 157 Q377 145 397 157 Q382 184 350 176 Q318 184 303 157Z" fill="#30243A"/>
+              <path d="M278 231 Q284 186 319 183 L382 183 Q417 186 424 231Z" fill="#5B43D6" stroke="#30243A" stroke-width="4"/>
+              <path d="M324 184 L350 215 L377 184" fill="#FFFFFF"/>
+              <rect x="18" y="245" width="484" height="38" rx="10" fill="#30243A"/>
+              <text x="260" y="270" font-size="18" font-weight="950" text-anchor="middle" fill="#FFFFFF">BHAI, DSA KAR LE PEHLE 😂</text>
+            </svg>
+            <div class="meme-bottom">“Password challenge khatam? Ab Linked List, Stack aur Trees tumhara intezaar kar rahe hain 😂”</div>
+          </div>
+          <button id="successResetBtn" class="btn btn-primary" type="button" style="margin-top:16px">Start again</button>
+        </div>
+      </div>
+
+      <aside class="panel" style="display:none">
+        <div class="panel-head">
+          <div>
+            <h2>Examiner's checklist</h2>
+            <div class="subtle" style="margin-top:7px">All earlier rules remain active.</div>
+          </div>
+        </div>
+        <div class="rule-list-head"><h3>Rules</h3><span id="listSummary">0 passed · 30 pending</span></div>
+        <div class="rule-list" id="ruleList"></div>
+      </aside>
+    </section>
+    
+  </main>
+</div>
+<canvas id="celebrationCanvas" class="celebration-canvas hidden-step" aria-hidden="true"></canvas>
 <script>
-(() => {
- const weekday = new Intl.DateTimeFormat('en-US',{weekday:'long'}).format(new Date());
- const rules = [
-  {title:'Your password must start with an underscore `_`.',hint:'Put `_` before the first character. Example: `_hello`.',test:p=>p.startsWith('_'),roast:'Bhai, shuruaat mein hi galti? Pehle `_` lagao, phir aage badho.'},
-  {title:'Include at least one uppercase letter.',hint:'Add any capital letter, for example `A` or `W`.',test:p=>/[A-Z]/.test(p),roast:'Capital letter absent. Confidence full, basics null.'},
-  {title:'Include at least 2 digits.',hint:'Add two or more numbers, such as `42`.',test:p=>(p.match(/[0-9]/g)||[]).length>=2,roast:'Bhai, calculator kholna nahi tha. Bas do numbers chahiye the.'},
-  {title:'Include a special character.',hint:'Add a symbol such as `@`, `#`, `!` or `?`.',test:p=>/[^A-Za-z0-9\s]/u.test(p),roast:'No special character detected. Password bhi normal, performance bhi normal?'},
-  {title:'Your password must be at least 10 characters long.',hint:'Keep typing. The password needs 10 or more characters.',test:p=>[...p].length>=10,roast:'Itna chhota answer toh viva mein bhi reject hota. Thoda effort, developer sahab.'},
-  {title:'Include the exact word `Bhai`.',hint:'Add `Bhai` anywhere in the password.',test:p=>p.includes('Bhai'),roast:'Itna attitude, par Bhai absent? Keyword add karo.'},
-  {title:'Include a month with exactly 5 letters.',hint:'A month name has five letters. Figure it out yourself—no hints from the examiner.',test:p=>/(March|April)/i.test(p),roast:'Calendar knowledge test failed. Khud socho, bhai—examiner answer nahi batayega.'},
-  {title:'Include `India`.',hint:'Add the exact word `India` anywhere.',test:p=>p.includes('India'),roast:'Password ko bhi location bata do — add `India`.'},
-  {title:'Reverse `fool` and include the result.',hint:'`f-o-o-l` backwards is `l-o-o-f`. Add `loof`.',test:p=>p.includes('loof'),roast:'Reverse karna tha, naya word invent nahi karna tha, bhai!'},
-  {title:'Include `404`.',hint:'Add the digits `404` in that order.',test:p=>p.includes('404'),roast:'Error 404: Common sense not found. Add `404`.'},
-  {title:'Include the 😂 emoji.',hint:'Add this exact emoji: 😂',test:p=>p.includes('😂'),roast:'Emotional intelligence test pending. Ek 😂 add kar do.'},
-  {title:'Include today’s weekday: '+weekday+'.',hint:'Add `'+weekday+'` exactly. This requirement follows the device’s current date.',test:p=>p.includes(weekday),roast:'Calendar API disappointed. Aaj '+weekday+' hai — calendar check kar lo.'},
-  {title:'Include `Oops`.',hint:'Add `Oops` with a capital O.',test:p=>p.includes('Oops'),roast:'Mistake toh hui hogi. Kam se kam `Oops` toh add karo.'},
-  {title:'Include the answer to 7 × 8.',hint:'The answer is `56`. Add those digits together.',test:p=>p.includes('56'),roast:'7 × 8 bhi password mein nahi? Calculator allowed hai, excuses nahi.'},
-  {title:'Your password must contain exactly 3 underscores `_`.',hint:'Count every `_` including the first character. Total must be exactly 3.',test:p=>(p.match(/_/g)||[]).length===3,roast:'Underscore audit failed. Exactly 3 chahiye. Ek extra bhi hua toh marks cut.'},
-  {title:'Include three consecutive lowercase `a` letters.',hint:'Add `aaa` in lowercase, with no characters between the letters.',test:p=>p.includes('aaa'),roast:'Three `a` in a row. Simple loop tha, practical exam nahi.'},
-  {title:'Include a question mark `?`.',hint:'Add `?` anywhere in the password.',test:p=>p.includes('?'),roast:'Password khud sawaal ban gaya. Add `?`.'},
-  {title:'Include uppercase `LOL`.',hint:'It must be uppercase `LOL`, not `lol`.',test:p=>p.includes('LOL'),roast:'Lowercase lol se validation nahi chalega, developer sahab.'},
-  {title:'Include lowercase `abc` in that order.',hint:'Add `abc` exactly in lowercase.',test:p=>p.includes('abc'),roast:'Alphabet sequence missing. Nursery ka sequence tha, BCA ka surprise question nahi.'},
-  {title:'Include `2026`.',hint:'Add the four digits `2026` in that order.',test:p=>p.includes('2026'),roast:'Current-year update pending. Password mein bhi 2026 lao.'},
-  {title:'A digit must immediately follow `@`.',hint:'Use a pattern like `@7` or `@42` — no character between @ and the digit.',test:p=>/@\d/.test(p),roast:'Position requirement failed. `@` ke baad digit chahiye. Beech mein holiday mat do.'},
-  {title:'Include at least 4 hyphens `-`.',hint:'Add `-` between parts of your password until there are 4 or more.',test:p=>(p.match(/-/g)||[]).length>=4,roast:'Separator requirement failed. Password hai ya one-line answer? Four hyphens add karo.'},
-  {title:'Your password must be at least 20 characters long.',hint:'Add more characters until the total length reaches 20.',test:p=>[...p].length>=20,roast:'20 characters chahiye. Ye short answer nahi chalega.'},
-  {title:'Include uppercase `W`.',hint:'Add a capital `W` anywhere in the password.',test:p=>p.includes('W'),roast:'Specific W missing. Uppercase ka viva abhi khatam nahi hua.'},
-  {title:'Your password must end with `!`.',hint:'Put `!` as the very last character. Anything after it will fail.',test:p=>p.endsWith('!'),roast:'Final character wrong. Password ko dramatic ending do — `!` par khatam karo.'},
-  {title:'Include lowercase `cat`.',hint:'Add `cat` anywhere, but keep `!` as the last character.',test:p=>p.includes('cat'),roast:'Cat missing. Validator ko pet chahiye, excuse nahi.'},
-  {title:'Include lowercase `dog`.',hint:'Add `dog` anywhere, but keep `!` as the last character.',test:p=>p.includes('dog'),roast:'Cat aa gaya, dog nahi? Attendance incomplete.'},
-  {title:'Include at least 3 uppercase letters.',hint:'Count uppercase A–Z characters. You need at least 3.',test:p=>(p.match(/[A-Z]/g)||[]).length>=3,roast:'Uppercase letters bhi manually count karwaoge? At least 3 chahiye.'},
-  {title:'Include both `please` and `why`.',hint:'Add both lowercase words `please` and `why` before the final `!`.',test:p=>p.includes('please')&&p.includes('why'),roast:'Pehle please bolo, phir why pucho. Validator se tameez seekho.'},
-  {title:'Include the exact phrase `I AM DONE`.',hint:'Add `I AM DONE` exactly, including spaces and uppercase letters.',test:p=>p.includes('I AM DONE')&&p.endsWith('!'),roast:'Last question, last chance. `I AM DONE` likho — phir shayad tum bhi done ho jaoge.'}
- ];
- const $=id=>document.getElementById(id);let sessionName='',sessionMobile='';
- $('form').addEventListener('submit',e=>{e.preventDefault();sessionName=$('name').value.trim();sessionMobile=$('mobile').value.trim();const p=$('initialPassword').value;if(!sessionName||!sessionMobile||!p){$('error').textContent='Pehle details aur password enter karo, bhai.';return;}$('error').textContent='';$('signup').classList.add('hidden');$('game').classList.remove('hidden');$('password').value=p;render();});
- function render(){const p=$('password').value;const i=rules.findIndex(r=>{try{return !r.test(p)}catch{return true}});if(i===-1){$('counter').textContent='ALL 30 RULES PASSED';$('title').textContent='Every requirement is satisfied.';$('hint').textContent='No more fixes needed. The examiner has nothing left to say.';$('feedback').className='feedback ok';$('feedback').textContent='🏆 VALIDATION COMPLETE — All 30 rules passed. Your submission is complete.';$('success').classList.remove('hidden');$('check').disabled=true;$('check').textContent='Submitted ✓';return;}$('success').classList.add('hidden');$('check').disabled=false;$('check').textContent='Check password';$('counter').textContent='RULE '+(i+1)+' OF 30';$('title').textContent=rules[i].title;$('hint').textContent=rules[i].hint;$('feedback').className='feedback';$('feedback').textContent='⚠️ '+rules[i].roast;}
- $('check').addEventListener('click',render);$('password').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();render();}});$('password').addEventListener('input',()=>{if(!$('success').classList.contains('hidden'))render();});
- function reset(){$('form').reset();$('password').value='';$('game').classList.add('hidden');$('signup').classList.remove('hidden');$('success').classList.add('hidden');$('check').disabled=false;$('check').textContent='Check password';$('error').textContent='';}
- $('reset').addEventListener('click',reset);$('again').addEventListener('click',reset);
+(function () {
+  // Paste your deployed Google Apps Script Web App URL here to enable Google Sheets saving.
+  const GOOGLE_SHEETS_WEB_APP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+  const weekday = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(new Date());
+  document.getElementById("todayLabel").textContent = weekday.toUpperCase();
+  const rules = [
+    { title: "Your password must start with an underscore `_`.", hint: "Fix: Put `_` before the first character. Example: `_hello`.", test: p => p.startsWith("_"), roast: "Bhai, shuruaat mein hi galti? Pehle `_` lagao, phir aage badho.", fix: "Add `_` at the very beginning." },
+    { title: "Include at least one uppercase letter.", hint: "Fix: Add any capital letter, for example `A` or `W`.", test: p => /[A-Z]/.test(p), roast: "Capital letter absent. Confidence full, basics null.", fix: "Add one uppercase letter, such as `A`." },
+    { title: "Include at least 2 digits.", hint: "Fix: Add two or more numbers, such as `42`.", test: p => (p.match(/[0-9]/g) || []).length >= 2, roast: "Bhai, calculator kholna nahi tha. Bas do numbers chahiye the.", fix: "Add at least two digits, such as `42`." },
+    { title: "Include a special character.", hint: "Fix: Add a symbol such as `@`, `#`, `!` or `?`.", test: p => /[^A-Za-z0-9\s]/u.test(p), roast: "No special character detected. Password bhi normal, performance bhi normal?", fix: "Add a symbol such as `@` or `#`." },
+    { title: "Your password must be at least 10 characters long.", hint: "Fix: Keep typing. The password needs 10 or more characters.", test: p => [...p].length >= 10, roast: "Itna chhota answer toh viva mein bhi reject hota. Thoda effort, developer sahab.", fix: "Make the password at least 10 characters long." },
+    { title: "Include the exact word `Bhai`.", hint: "Fix: Add `Bhai` anywhere in the password. No separator is required.", test: p => p.includes("Bhai"), roast: "Itna attitude, par Bhai absent? Keyword add karo.", fix: "Add the exact word `Bhai`." },
+    { title: "Include a month with exactly 5 letters.", hint: "A month name has five letters. Figure it out yourself—no hints from the examiner.", test: p => /(March|April)/i.test(p), roast: "Calendar knowledge test failed. Khud socho, bhai—examiner answer nahi batayega.", fix: "Find and add a month name with exactly 5 letters." },
+    { title: "Include `India`.", hint: "Fix: Add the exact word `India` anywhere.", test: p => p.includes("India"), roast: "Password ko bhi location bata do — add `India`.", fix: "Add `India`." },
+    { title: "Reverse `fool` and include the result.", hint: "Fix: `f-o-o-l` backwards is `l-o-o-f`. Add `loof`.", test: p => p.includes("loof"), roast: "Reverse karna tha, naya word invent nahi karna tha, bhai!", fix: "Add `loof` — the reverse of `fool`." },
+    { title: "Include `404`.", hint: "Fix: Add the digits `404` in that order.", test: p => p.includes("404"), roast: "Error 404: Common sense not found. Add `404`.", fix: "Add `404`." },
+    { title: "Include the 😂 emoji.", hint: "Fix: Add this exact emoji: 😂", test: p => p.includes("😂"), roast: "Emotional intelligence test pending. Ek 😂 add kar do.", fix: "Add 😂." },
+    { title: "Include today's weekday: " + weekday + ".", hint: "Fix: Add `" + weekday + "` exactly. This requirement follows your device's current date.", test: p => p.includes(weekday), roast: "Calendar API disappointed. Aaj " + weekday + " hai — calendar check kar lo.", fix: "Add `" + weekday + "`." },
+    { title: "Include `Oops`.", hint: "Fix: Add `Oops` with a capital O.", test: p => p.includes("Oops"), roast: "Mistake toh hui hogi. Kam se kam `Oops` toh add karo.", fix: "Add `Oops`." },
+    { title: "Include the answer to 7 × 8.", hint: "Fix: The answer is `56`. Add those digits together.", test: p => p.includes("56"), roast: "7 × 8 bhi password mein nahi? Calculator allowed hai, excuses nahi.", fix: "Add `56`." },
+    { title: "Your password must contain exactly 3 underscores `_`.", hint: "Fix: Count every `_` including the first character. Total must be exactly 3.", test: p => (p.match(/_/g) || []).length === 3, roast: "Underscore audit failed. Exactly 3 chahiye. Ek extra bhi hua toh marks cut.", fix: "Keep exactly 3 underscores in the entire password." },
+    { title: "Include three consecutive lowercase `a` letters.", hint: "Fix: Add `aaa` in lowercase, with no characters between the letters.", test: p => p.includes("aaa"), roast: "Three `a` in a row. Simple loop tha, practical exam nahi.", fix: "Add `aaa`." },
+    { title: "Include a question mark `?`.", hint: "Fix: Add `?` anywhere in the password.", test: p => p.includes("?"), roast: "Password khud sawaal ban gaya. Add `?`.", fix: "Add `?`." },
+    { title: "Include uppercase `LOL`.", hint: "Fix: It must be uppercase `LOL`, not `lol`.", test: p => p.includes("LOL"), roast: "Lowercase lol se validation nahi chalega, developer sahab.", fix: "Add uppercase `LOL`." },
+    { title: "Include lowercase `abc` in that order.", hint: "Fix: Add `abc` exactly in lowercase.", test: p => p.includes("abc"), roast: "Alphabet sequence missing. Nursery ka sequence tha, BCA ka surprise question nahi.", fix: "Add lowercase `abc`." },
+    { title: "Include `2026`.", hint: "Fix: Add the four digits `2026` in that order.", test: p => p.includes("2026"), roast: "Current-year update pending. Password mein bhi 2026 lao.", fix: "Add `2026`." },
+    { title: "A digit must immediately follow `@`.", hint: "Fix: Use a pattern like `@7` or `@42` — no character between @ and the digit.", test: p => /@\d/.test(p), roast: "Position requirement failed. `@` ke baad digit chahiye. Beech mein holiday mat do.", fix: "Put a digit directly after `@`, such as `@7`." },
+    { title: "Include at least 4 hyphens `-`.", hint: "Fix: Add `-` between any parts of your password until there are 4 or more. Hyphens are only required from this rule onward.", test: p => (p.match(/-/g) || []).length >= 4, roast: "Separator requirement failed. Password hai ya one-line answer? Four hyphens add karo.", fix: "Add at least four `-` characters." },
+    { title: "Your password must be at least 20 characters long.", hint: "Fix: Add more characters until the total length reaches 20.", test: p => [...p].length >= 20, roast: "20 characters chahiye. Ye short answer nahi chalega.", fix: "Make the password at least 20 characters long." },
+    { title: "Include uppercase `W`.", hint: "Fix: Add a capital `W` anywhere in the password.", test: p => p.includes("W"), roast: "Specific W missing. Uppercase ka viva abhi khatam nahi hua.", fix: "Add uppercase `W`." },
+    { title: "Your password must end with `!`.", hint: "Fix: Put `!` as the very last character. Anything after it will fail.", test: p => p.endsWith("!"), roast: "Final character wrong. Password ko dramatic ending do — `!` par khatam karo.", fix: "Move `!` to the very end." },
+    { title: "Include lowercase `cat`.", hint: "Fix: Add `cat` anywhere, but keep `!` as the last character.", test: p => p.includes("cat"), roast: "Cat missing. Validator ko pet chahiye, excuse nahi.", fix: "Add `cat` before the final `!`." },
+    { title: "Include lowercase `dog`.", hint: "Fix: Add `dog` anywhere, but keep `!` as the last character.", test: p => p.includes("dog"), roast: "Cat aa gaya, dog nahi? Attendance incomplete.", fix: "Add `dog` before the final `!`." },
+    { title: "Include at least 3 uppercase letters.", hint: "Fix: Count uppercase A–Z characters. You need at least 3.", test: p => (p.match(/[A-Z]/g) || []).length >= 3, roast: "Uppercase letters bhi manually count karwaoge? At least 3 chahiye.", fix: "Add uppercase letters until there are at least 3." },
+    { title: "Include both `please` and `why`.", hint: "Fix: Add both lowercase words `please` and `why` anywhere before the final `!`.", test: p => p.includes("please") && p.includes("why"), roast: "Pehle please bolo, phir why pucho. Validator se tameez seekho.", fix: "Add both `please` and `why` before the final `!`." },
+    { title: "Include the exact phrase `I AM DONE`.", hint: "Fix: Add `I AM DONE` exactly, including the spaces and uppercase letters. Keep `!` at the end.", test: p => p.includes("I AM DONE") && p.endsWith("!"), roast: "Last question, last chance. `I AM DONE` likho — phir shayad tum bhi done ho jaoge.", fix: "Add the exact phrase `I AM DONE` before the final `!`." }
+  ];
+
+  const input = document.getElementById("passwordInput");
+  const questionNumber = document.getElementById("questionNumber");
+  const questionStatus = document.getElementById("questionStatus");
+  const questionTitle = document.getElementById("questionTitle");
+  const questionHint = document.getElementById("questionHint");
+  const feedback = document.getElementById("feedback");
+  const feedbackIcon = document.getElementById("feedbackIcon");
+  const feedbackTitle = document.getElementById("feedbackTitle");
+  const feedbackText = document.getElementById("feedbackText");
+  const nextBtn = document.getElementById("nextBtn");
+  const progressCount = document.getElementById("progressCount");
+  const progressFill = document.getElementById("progressFill");
+  const ruleList = document.getElementById("ruleList");
+  const listSummary = document.getElementById("listSummary");
+  const successPanel = document.getElementById("successPanel");
+  let currentIndex = 0;
+  let unlockedIndex = 0;
+  let started = false;
+  let showAll = false;
+  let visible = true;
+  let passwordSubmitted = false;
+  let celebrationPlayed = false;
+  let sessionId = "";
+  let completionSaved = false;
+
+  function saveSubmission(status, rulesPassed) {
+    if (!GOOGLE_SHEETS_WEB_APP_URL.startsWith("https://script.google.com/macros/s/")) {
+      console.warn("Google Sheets is not connected yet. Add your deployed Apps Script Web App URL.");
+      return;
+    }
+    const formData = new URLSearchParams({
+      sessionId,
+      name: document.getElementById("accountName").value.trim(),
+      mobile: document.getElementById("accountMobile").value.trim(),
+      gameStatus: status,
+      rulesPassed: String(rulesPassed),
+      dateTime: new Date().toISOString()
+    });
+    fetch(GOOGLE_SHEETS_WEB_APP_URL, { method: "POST", mode: "no-cors", body: formData })
+      .catch(error => console.error("Google Sheets save failed:", error));
+  }
+
+  function safeTest(rule, value) {
+    try { return Boolean(rule.test(value)); } catch (e) { return false; }
+  }
+
+  function statuses(value) {
+    return rules.map(rule => safeTest(rule, value));
+  }
+
+  function firstFailed(all) {
+    return all.findIndex(passed => !passed);
+  }
+
+  function renderList(all) {
+    ruleList.innerHTML = "";
+    const max = showAll ? rules.length : Math.min(rules.length, Math.max(8, currentIndex + 4));
+    for (let i = 0; i < max; i++) {
+      const row = document.createElement("div");
+      row.className = "rule-row";
+      const dot = document.createElement("div");
+      dot.className = "rule-dot" + (all[i] ? " pass" : (i === currentIndex ? " current" : ""));
+      dot.textContent = all[i] ? "✓" : String(i + 1).padStart(2, "0");
+      const body = document.createElement("div");
+      body.style.flex = "1";
+      const name = document.createElement("div");
+      name.className = "rule-name";
+      name.textContent = rules[i].title;
+      const state = document.createElement("div");
+      state.className = "rule-state";
+      state.textContent = all[i] ? "Passed" : (i === currentIndex ? "Current requirement" : i < currentIndex ? "Needs re-check" : "Locked until reached");
+      body.append(name, state);
+      row.append(dot, body);
+      ruleList.append(row);
+    }
+    if (!showAll && max < rules.length) {
+      const more = document.createElement("div");
+      more.className = "subtle";
+      more.style.padding = "12px 0";
+      more.textContent = (rules.length - max) + " more requirements hidden";
+      ruleList.append(more);
+    }
+    const passed = all.filter(Boolean).length;
+    listSummary.textContent = passed + " passed · " + (rules.length - passed) + " pending";
+  }
+
+  function render() {
+    const value = input.value;
+    const all = statuses(value);
+    const passed = all.filter(Boolean).length;
+    progressCount.textContent = passed + " / 30 passed";
+    progressFill.style.width = (passed / 30 * 100) + "%";
+    renderList(all);
+    if (firstFailed(all) === -1 && passwordSubmitted) {
+      if (!completionSaved) {
+        saveSubmission("Completed", rules.length);
+        completionSaved = true;
+      }
+      currentIndex = rules.length - 1;
+      questionNumber.textContent = "ALL RULES PASSED";
+      questionStatus.textContent = "PASSED";
+      questionStatus.className = "status pass";
+      questionTitle.textContent = "Every requirement is satisfied.";
+      questionHint.textContent = "No more fixes needed. The examiner has nothing left to say.";
+      feedback.className = "feedback ok";
+      feedbackIcon.textContent = "🏆";
+      feedbackTitle.textContent = "VALIDATION COMPLETE";
+      feedbackText.textContent = "All 30 rules passed. Your submission is complete.";
+      nextBtn.textContent = "Submitted ✓";
+      nextBtn.disabled = true;
+      successPanel.classList.add("show");
+      document.getElementById("passwordSection").classList.add("completed");
+      celebrationPlayed = true;
+      return;
+    }
+    document.getElementById("passwordSection").classList.remove("completed");
+    successPanel.classList.remove("show");
+    currentIndex = firstFailed(all);
+    if (currentIndex === -1) currentIndex = rules.length - 1;
+    const rule = rules[currentIndex];
+    questionNumber.textContent = "RULE " + (currentIndex + 1) + " OF 30";
+    questionStatus.textContent = "NOT PASSED";
+    questionStatus.className = "status";
+    questionTitle.textContent = rule.title;
+    questionHint.textContent = "";
+    feedback.className = "feedback";
+    feedbackIcon.textContent = "⚠️";
+    feedbackTitle.textContent = "Current rule to fix";
+    feedbackText.textContent = rules[currentIndex].roast;
+    nextBtn.textContent = "Check password";
+    nextBtn.disabled = false;
+  }
+
+  input.addEventListener("input", () => {
+    started = true;
+    passwordSubmitted = false;
+    celebrationPlayed = false;
+  });
+  document.getElementById("accountForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const name = document.getElementById("accountName").value.trim();
+    const mobile = document.getElementById("accountMobile").value.trim();
+    const password = document.getElementById("accountPassword").value;
+    const error = document.getElementById("accountError");
+    if (!name || !mobile) {
+      error.textContent = "Pehle apna name aur mobile number enter karo, bhai.";
+      return;
+    }
+    if (!password) {
+      error.textContent = "Pehle password enter karo, bhai.";
+      document.getElementById("accountPassword").focus();
+      return;
+    }
+    error.textContent = "";
+    sessionId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + "-" + Math.random().toString(36).slice(2);
+    completionSaved = false;
+    saveSubmission("In Progress", statuses(password).filter(Boolean).length);
+    input.value = password;
+    document.getElementById("signupStep").classList.add("hidden-step");
+    document.getElementById("heroSection").classList.remove("hidden-step");
+    document.getElementById("passwordSection").classList.remove("hidden-step");
+    document.getElementById("questionCard").classList.remove("hidden-step");
+    document.getElementById("startBtn").textContent = "Check password";
+    render();
+    document.getElementById("passwordInput").focus();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  document.getElementById("startBtn").addEventListener("click", () => {
+    started = true;
+    document.getElementById("questionCard").classList.remove("hidden-step");
+    passwordSubmitted = firstFailed(statuses(input.value)) === -1;
+    document.getElementById("startBtn").textContent = "Check password";
+    render();
+    document.getElementById("questionCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+  nextBtn.addEventListener("click", () => {
+    started = true;
+    document.getElementById("questionCard").classList.remove("hidden-step");
+    if (firstFailed(statuses(input.value)) === -1) {
+      passwordSubmitted = true;
+    }
+    render();
+    input.focus();
+  });
+  document.getElementById("resetBtn").addEventListener("click", reset);
+  document.getElementById("successResetBtn").addEventListener("click", reset);
+  document.getElementById("showRulesBtn").addEventListener("click", () => {
+    showAll = !showAll;
+    document.getElementById("showRulesBtn").textContent = showAll ? "Show fewer rules" : "View all rules";
+    render();
+  });
+  document.getElementById("toggleVisibility").addEventListener("click", () => {
+    visible = !visible;
+    input.type = visible ? "text" : "password";
+    document.getElementById("toggleVisibility").textContent = visible ? "◉" : "◎";
+    document.getElementById("toggleVisibility").setAttribute("aria-label", visible ? "Hide password" : "Show password");
+  });
+
+  function reset() {
+    input.value = "";
+    started = false;
+    showAll = false;
+    unlockedIndex = 0;
+    passwordSubmitted = false;
+    celebrationPlayed = false;
+    sessionId = "";
+    completionSaved = false;
+    document.getElementById("passwordSection").classList.remove("completed");
+    document.getElementById("signupStep").classList.remove("hidden-step");
+    document.getElementById("heroSection").classList.add("hidden-step");
+    document.getElementById("passwordSection").classList.add("hidden-step");
+    document.getElementById("accountForm").reset();
+    document.querySelector(".brand-sub").textContent = "A tiny test of your patience.";
+    document.getElementById("showRulesBtn").textContent = "View all rules";
+    successPanel.classList.remove("show");
+    document.getElementById("celebrationCanvas").classList.add("hidden-step");
+    render();
+    document.getElementById("accountPassword").value = "";
+    document.getElementById("accountPassword").focus();
+  }
+
+  function launchCelebration() {
+    const canvas = document.getElementById("celebrationCanvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    canvas.classList.remove("hidden-step");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.scale(dpr, dpr);
+    const colors = ["#5B43D6", "#F43F8C", "#FFB020", "#18A874", "#2FA8FF", "#FF6B4A", "#9A6BFF"];
+    const particles = Array.from({ length: 1000 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: -Math.random() * window.innerHeight * 1.3,
+      vx: (Math.random() - .5) * 7,
+      vy: 2 + Math.random() * 7,
+      size: 3 + Math.random() * 6,
+      rotation: Math.random() * Math.PI,
+      spin: (Math.random() - .5) * .22,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      shape: Math.random() > .55 ? "rect" : "circle"
+    }));
+    const start = performance.now();
+    function frame(now) {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      const elapsed = now - start;
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += .035;
+        p.rotation += p.spin;
+        if (p.shape === "circle") {
+          ctx.beginPath();
+          ctx.fillStyle = p.color;
+          ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.7);
+          ctx.restore();
+        }
+      });
+      if (elapsed < 5200) {
+        requestAnimationFrame(frame);
+      } else {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        canvas.classList.add("hidden-step");
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  render();
 })();
-</script></body></html>
+</script>
+</body>
+</html>
