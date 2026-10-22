@@ -17,7 +17,12 @@ A humorous password-validation game built with HTML, CSS, and JavaScript. The ch
 
 ## GitHub Pages
 
-To publish it as a shareable website, open **Settings → Pages** in this repository, choose **Deploy from a branch**, select the `main` branch and `/ (root)`, then save. GitHub will show the public Pages URL when deployment is ready.
+To publish it as a shareable website:
+
+1. Open **Settings → Pages** in this repository.
+2. Under **Build and deployment → Source**, select **GitHub Actions** and save.
+3. Open the **Actions** tab, select **Deploy Password Please to GitHub Pages**, then choose **Run workflow** if it has not started automatically.
+4. Once deployment succeeds, open **Settings → Pages** and click **Visit site**. Future pushes to `main` will deploy automatically.
 
 ## Privacy note
 
