@@ -20,9 +20,9 @@ A humorous password-validation game built with HTML, CSS, and JavaScript. The ch
 To publish it as a shareable website:
 
 1. Open **Settings → Pages** in this repository.
-2. Under **Build and deployment → Source**, select **GitHub Actions** and save.
-3. Open the **Actions** tab, select **Deploy Password Please to GitHub Pages**, then choose **Run workflow** if it has not started automatically.
-4. Once deployment succeeds, open **Settings → Pages** and click **Visit site**. Future pushes to `main` will deploy automatically.
+2. Under **Build and deployment → Source**, select **Deploy from a branch**.
+3. Select branch **`main`** and folder **`/ (root)`**, then click **Save**.
+4. After GitHub finishes publishing, open **Settings → Pages** and click **Visit site**. Future pushes to `main` will update the site automatically.
 
 ## Privacy note
 
