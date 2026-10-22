@@ -1,10 +1,10 @@
 # Password Please — BCA Password Challenge
 
-A humorous password-validation game built with HTML, CSS, and JavaScript. The challenge checks a password against 30 increasingly specific rules and gives funny feedback along the way.
+A humorous password-validation game built with HTML, CSS, and JavaScript. The challenge checks a password against 29 increasingly specific rules and gives funny feedback along the way.
 
 ## Features
 
-- 30 password rules, including character, word, number, emoji, and ordering requirements
+- 29 password rules, including character, word, number, emoji, and ordering requirements
 - Rule-by-rule validation with Hinglish-style feedback
 - A completion screen with an original cartoon reaction
 - Responsive layout for desktop and mobile
